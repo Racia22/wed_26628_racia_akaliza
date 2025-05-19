@@ -1,1 +1,5 @@
-# wed_26628_racia_akaliza
+# Equipment Borrowing Management System
+
+**Developer:** Akaliza M. Racia
+
+**Student ID:** 26628
