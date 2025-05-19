@@ -28,15 +28,15 @@ The main goal of this system is to track the movement of equipment between users
 ## 🌍 Real-World Impact on Society
 This system has the potential to improve operational efficiency and reduce costs in a variety of sectors:
 
-🏫 Universities will minimize the loss of lab tools and laptops
+- 🏫 Universities will minimize the loss of lab tools and laptops
 
-🧪 Research labs will better manage shared scientific equipment
+- 🧪 Research labs will better manage shared scientific equipment
 
-🏢 Offices can track the use of devices like projectors or tablets
+- 🏢 Offices can track the use of devices like projectors or tablets
 
-🔐 Encourages accountability and responsible usage through clear record-keeping
+- 🔐 Encourages accountability and responsible usage through clear record-keeping
 
-⏰ Saves time by reducing the administrative burden on staff
+- ⏰ Saves time by reducing the administrative burden on staff
 
 # 📦 Phase 1 – Project Planning and Database Design
 
@@ -90,24 +90,24 @@ The current manual or outdated systems are inefficient and do not support:
 Where borrowing of equipment like laptops, lab kits, or cameras is common.
 
 ### 👤 Target Users
-🎓 Students/Employees – who borrow the equipment
+- 🎓 Students/Employees – who borrow the equipment
 
-🛠️ Equipment Managers – who manage inventory
+- 🛠️ Equipment Managers – who manage inventory
 
-🧑‍💼 Administrators – who oversee the system and generate reports
+- 🧑‍💼 Administrators – who oversee the system and generate reports
 
 ## 🛠️ System Entities
 ### 1. 👥 Users
-Attributes: User_ID, Name, Department, Contact_Info
+**Attributes:** `User_ID`, `Name`, `Department`, `Contact_Info`
 
 ### 2. 🖥️ Equipment
-Attributes: Equipment_ID, Name, Type, Condition, Availability_Status
+**Attributes:** `Equipment_ID`, `Name`, `Type`,` Condition`, `Availability_Status`
 
 ### 3. 📄 Borrowing Records
-Attributes: Borrow_ID, User_ID, Equipment_ID, Borrow_Date, Due_Date, Return_Date, Status
+**Attributes:** `Borrow_ID`, `User_ID`, `Equipment_ID`,` Borrow_Date`, `Due_Date`,` Return_Date`, `Status`
 
 ### 4. 💸 Fines/Penalties
-Attributes: Fine_ID, User_ID, Amount, Reason, Paid_Status
+**Attributes:** `Fine_ID`, `User_ID`, `Amount`, `Reason`, `Paid_Status`
 
 ### 🚀 Expected Outcomes (Phase 1)
 - ✅ Efficient tracking from borrowing to return
@@ -125,7 +125,7 @@ Attributes: Fine_ID, User_ID, Amount, Reason, Paid_Status
 
   - 📚 Full history for accountability
 
- - 💼 Reduced administrative work
+  - 💼 Reduced administrative work
 
- - 🧾 Enforced policies with fines
+  - 🧾 Enforced policies with fines
 
