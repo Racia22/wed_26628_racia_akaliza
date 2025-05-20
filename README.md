@@ -145,7 +145,7 @@ Where borrowing of equipment like laptops, lab kits, or cameras is common.
 
 ### 📘 Phase Cover – What’s Included in Phase II?
 
-In Phase II, we model the business process involved in borrowing and returning equipment using Management Information Systems (MIS) principles. The goal is to visualize information flow, entity interaction, and decision-making support within the system. This phase does not involve coding but instead focuses on planning, system logic, and workflow clarity.
+This phase focuses on designing a business process model that visually illustrates how the Equipment Borrowing System works within a Management Information System (MIS) framework. The model shows how data flows between users and systems, how decisions are made, and how responsibilities are distributed — all essential components of an efficient MIS-based workflow.
 
 ### 🧭 Purpose of This Phase:
 
@@ -178,7 +178,9 @@ The objective of this phase is to model a business process that demonstrates how
 ## 🗂️ Define the Scope
 
 ## 🔍 Business Process Being Modeled:
-Equipment Borrowing and Return Workflow – managing the request, approval, issue, return, and penalty enforcement related to institutional equipment.
+## Equipment Borrowing and Return Workflow
+
+This process models how students or employees request to borrow equipment, how it is approved, tracked, returned, and how penalties are managed if rules are broken.
 
 ## 💻 Relevance to MIS:
 
@@ -226,28 +228,28 @@ Equipment Borrowing and Return Workflow – managing the request, approval, issu
 
 My Swimlane Diagram has the following lanes:
 
-**Lane 1:** User (Borrower)
+**🧍‍♂️ Lane 1:** User (Borrower)
 
-**Lane 2:** Equipment Manager
+**🧑‍🔧Lane 2:** Equipment Manager
 
-**Lane 3:** System (Database + Notification Engine)
+**🖥️ Lane 3:** System (Database + Notification Engine)
 
-**Lane 4:** Administrator
+**👨‍🏫 Lane 4:** Administrator
 
 
 ## 🧮 Apply UML/BPMN Notations
 
 ## Use BPMN elements like:
 
- - Start/End Events (circles)
+ - ⚪ Start/End Events (circles)
 
- - Tasks (rounded rectangles)
+ - 📥 Tasks (rounded rectangles)
 
- - Gateways/Decisions (diamonds)
+ - 🔄 Gateways/Decisions (diamonds)
 
- - Swimlanes for roles
+ - 📤 Swimlanes for roles
 
- - Arrows for sequence flow
+ - ↗ Arrows for sequence flow
 
 ## Key Diagram Components:
 
@@ -294,6 +296,14 @@ My Swimlane Diagram has the following lanes:
 💸 Fine Generated (if needed) →
 
 🔚 End Transaction
+
+## ✅ Tools Used:
+
+ - Diagram Tool: Draw.io
+
+ - Notation Style: BPMN / UML with swimlanes
+
+ - Format: PNG, PDF, or embedded in documentation
 
 
 
