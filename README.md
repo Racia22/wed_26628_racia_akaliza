@@ -141,7 +141,7 @@ Where borrowing of equipment like laptops, lab kits, or cameras is common.
 
 
 
-# 🧩 Phase II: Business Process Modeling
+# 🧩 Phase 2: Business Process Modeling
 
 ### 📘 Phase Cover – What’s Included in Phase II?
 
@@ -303,17 +303,110 @@ My Swimlane Diagram has the following lanes:
 
  - Notation Style: BPMN / UML with swimlanes
 
- - Format: PNG, PDF, or embedded in documentation
+ - Format: PNG or embedded in documentation
 
+ # Phase 3:  🗂 Logical Model Design
+ 
+## 📘 Phase Cover – What’s Included in Phase III?
 
+In Phase III, the focus is on designing a Logical Data Model that reflects both the problem statement defined in Phase I and the business process modeled in Phase II. The logical model will structure data entities, their attributes, relationships, and constraints. This model is foundational for the implementation phase that follows.
 
+## 🎯 Purpose:
 
+ - To define how data will be organized, related, and constrained within the system
 
+ - To reduce redundancy and ensure consistency using normalization principles
 
+ - To visualize relationships between entities before coding begins
 
+## 1️⃣ Entity-Relationship (ER) Model
 
+Below are the core entities, their attributes (with data types), and key designations:
 
+## 👥 Users
 
+| Attribute      | Data Type    | Constraints                   |
+| -------------- | ------------ | ----------------------------- |
+| `User_ID`      | INT          | PRIMARY KEY, NOT NULL, UNIQUE |
+| `Name`         | VARCHAR(100) | NOT NULL                      |
+| `Department`   | VARCHAR(100) | NOT NULL                      |
+| `Contact_Info` | VARCHAR(150) | NOT NULL, UNIQUE              |
+
+## 💻 Equipment
+
+| Attribute             | Data Type    | Constraints                                             |
+| --------------------- | ------------ | ------------------------------------------------------- |
+| `Equipment_ID`        | INT          | PRIMARY KEY, NOT NULL, UNIQUE                           |
+| `Name`                | VARCHAR(100) | NOT NULL                                                |
+| `Type`                | VARCHAR(50)  | NOT NULL                                                |
+| `Condition`           | VARCHAR(50)  | DEFAULT 'Good', CHECK IN ('Good', 'Fair', 'Damaged')    |
+| `Availability_Status` | VARCHAR(20)  | DEFAULT 'Available', CHECK IN ('Available', 'Borrowed') |
+
+## 📄 Borrowing Records
+
+| Attribute      | Data Type   | Constraints                                                      |
+| -------------- | ----------- | ---------------------------------------------------------------- |
+| `Borrow_ID`    | INT         | PRIMARY KEY, NOT NULL, UNIQUE                                    |
+| `User_ID`      | INT         | FOREIGN KEY REFERENCES Users(User\_ID), NOT NULL                 |
+| `Equipment_ID` | INT         | FOREIGN KEY REFERENCES Equipment(Equipment\_ID), NOT NULL        |
+| `Borrow_Date`  | DATE        | NOT NULL                                                         |
+| `Due_Date`     | DATE        | NOT NULL, CHECK (`Due_Date` > `Borrow_Date`)                     |
+| `Return_Date`  | DATE        | NULL (optional)                                                  |
+| `Status`       | VARCHAR(20) | DEFAULT 'Borrowed', CHECK IN ('Borrowed', 'Returned', 'Overdue') |
+
+## 💸 Fines
+
+| Attribute     | Data Type     | Constraints                                      |
+| ------------- | ------------- | ------------------------------------------------ |
+| `Fine_ID`     | INT           | PRIMARY KEY, NOT NULL, UNIQUE                    |
+| `User_ID`     | INT           | FOREIGN KEY REFERENCES Users(User\_ID), NOT NULL |
+| `Amount`      | DECIMAL(10,2) | NOT NULL, CHECK (`Amount` >= 0), DEFAULT 0.00    |
+| `Reason`      | VARCHAR(150)  | NOT NULL                                         |
+| `Paid_Status` | VARCHAR(20)   | DEFAULT 'Unpaid', CHECK IN ('Paid', 'Unpaid')    |
+
+## 2️⃣ Relationships & Constraints
+
+| Relationship          | Type        | Description                                   |
+| --------------------- | ----------- | --------------------------------------------- |
+| Users ↔ Borrowing     | One-to-Many | A user can have many borrow records           |
+| Equipment ↔ Borrowing | One-to-Many | Each equipment can be borrowed multiple times |
+| Users ↔ Fines         | One-to-Many | A user can be associated with multiple fines  |
+
+## 3️⃣ Normalization
+
+✅ 1NF – All attributes have atomic values
+✅ 2NF – All non-key attributes fully depend on the primary key
+✅ 3NF – No transitive dependencies exist; all non-key fields depend only on the PK
+
+Example:
+
+ - Borrowing and fine details are separated into their own tables.
+
+ - Redundancy like repeating user/equipment info in transactions is avoided.
+
+## 4️⃣ Handling Real-World Data Scenarios
+
+## This model accommodates:
+
+ - 🧾 Multiple borrowings by the same user
+
+ - 🔁 Repeated borrowing of the same equipment
+
+ - ⏰ Overdue returns, triggering fines
+
+ - 📬 Future extensions (e.g., automated notifications)
+
+Each entity can scale with more data while maintaining consistency and supporting business rules effectively.
+
+## 5️⃣ Presentation & Feedback
+
+✅ Logical model is designed for clarity and completeness
+✅ Well-documented table structures with constraints
+✅ Ready for submission and instructor feedback
+
+## 📷 Screenshot of ERD Diagram
+
+![image](https://github.com/user-attachments/assets/28c029f3-6bbd-4bf9-bfd0-5a0e276aa4a7)
 
 
 
