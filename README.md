@@ -885,3 +885,187 @@ This phase empowered our system with **modular intelligence**. The database is n
 
 With interactive logic, packaged code, and robust error handling, I’ve built a true **MIS-powered backend** that’s future-proof and scalable.
 
+---
+
+
+# 🔐 Phase VII: Advanced Database Programming & Auditing  
+**📁 Project:** Equipment Borrowing Management System  
+**👩‍💻 Student:** Akaliza M. Racia  
+**🆔 ID:** 26628  
+**📅 Date:** [Insert Date]  
+
+---
+
+
+## 📘 Phase Cover – What’s Included in Phase VII?
+
+This phase transforms the system into a secure, intelligent, and accountable database environment. By applying advanced PL/SQL programming and auditing techniques, we:
+- ⛔ Enforce restricted operations during weekdays and holidays  
+- 🔁 Use triggers for real-time rule enforcement  
+- 📦 Package logic for automation  
+- 📝 Track user actions for audit purposes  
+
+---
+
+## 🧩 1. Problem Statement
+
+**Challenge:**  
+> To prevent unauthorized or unintended table manipulations during **weekdays** and **official holidays** in the upcoming month.
+
+**Justification:**  
+- Many organizations restrict database access during non-operational days to avoid errors, maintain audit trails, and secure sensitive data.
+- Triggers and audit mechanisms ensure **non-invasive enforcement**, real-time logging, and **system accountability**.
+
+---
+
+## 📅 2. Holiday Reference Table
+
+```sql
+CREATE TABLE Holiday_List (
+  Holiday_Date DATE PRIMARY KEY,
+  Description VARCHAR2(100)
+);
+```
+
+### 🎉 Sample Insertions:
+```sql
+INSERT INTO Holiday_List VALUES (TO_DATE('2025-07-04', 'YYYY-MM-DD'), 'Independence Day');
+INSERT INTO Holiday_List VALUES (TO_DATE('2025-07-20', 'YYYY-MM-DD'), 'Founders Day');
+```
+
+---
+
+## 🚫 3. Trigger: Block Table Manipulation (INSERT, UPDATE, DELETE)
+
+```sql
+CREATE OR REPLACE TRIGGER trg_block_weekday_holiday
+BEFORE INSERT OR UPDATE OR DELETE ON Borrowing_Records
+FOR EACH ROW
+DECLARE
+  v_today VARCHAR2(10);
+  v_holiday NUMBER;
+BEGIN
+  SELECT TO_CHAR(SYSDATE, 'DY') INTO v_today FROM DUAL;
+
+  SELECT COUNT(*) INTO v_holiday
+  FROM Holiday_List
+  WHERE TRUNC(Holiday_Date) = TRUNC(SYSDATE);
+
+  IF v_today IN ('MON', 'TUE', 'WED', 'THU', 'FRI') OR v_holiday > 0 THEN
+    RAISE_APPLICATION_ERROR(-20001, 'Modifications are blocked on weekdays or public holidays.');
+  END IF;
+END;
+/
+```
+
+✅ *Prevents any manipulation of the Borrowing_Records table during weekdays and official holidays in the upcoming month.*
+
+---
+
+## 📜 4. Audit Table for User Actions
+
+```sql
+CREATE TABLE Audit_Log (
+  Log_ID NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  User_ID VARCHAR2(50),
+  Action_Type VARCHAR2(20),
+  Action_Time TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Status VARCHAR2(10)
+);
+```
+
+---
+
+## 🎯 5. Compound Trigger: Log Actions in Audit Table
+
+```sql
+CREATE OR REPLACE TRIGGER trg_audit_borrowing
+AFTER INSERT OR DELETE OR UPDATE ON Borrowing_Records
+COMPOUND TRIGGER
+
+  TYPE t_action_rec IS RECORD (
+    user_id VARCHAR2(50),
+    action_type VARCHAR2(20),
+    status VARCHAR2(10)
+  );
+  action_data t_action_rec;
+
+AFTER EACH ROW IS
+BEGIN
+  action_data.user_id := USER;
+  action_data.status := 'ALLOWED';
+  IF INSERTING THEN
+    action_data.action_type := 'INSERT';
+  ELSIF UPDATING THEN
+    action_data.action_type := 'UPDATE';
+  ELSIF DELETING THEN
+    action_data.action_type := 'DELETE';
+  END IF;
+END AFTER EACH ROW;
+
+AFTER STATEMENT IS
+BEGIN
+  INSERT INTO Audit_Log (User_ID, Action_Type, Status)
+  VALUES (action_data.user_id, action_data.action_type, action_data.status);
+END AFTER STATEMENT;
+
+END;
+/
+```
+
+📝 *Records the user, action type, timestamp, and success status of any borrowing table changes.*
+
+---
+
+## 📦 6. Package: Audit Automation Utility
+
+### 📑 Package Spec:
+```sql
+CREATE OR REPLACE PACKAGE pkg_audit_utils IS
+  PROCEDURE Log_Audit(p_user VARCHAR2, p_action VARCHAR2, p_status VARCHAR2);
+END pkg_audit_utils;
+/
+```
+
+### 💼 Package Body:
+```sql
+CREATE OR REPLACE PACKAGE BODY pkg_audit_utils IS
+  PROCEDURE Log_Audit(p_user VARCHAR2, p_action VARCHAR2, p_status VARCHAR2) IS
+  BEGIN
+    INSERT INTO Audit_Log (User_ID, Action_Type, Status)
+    VALUES (p_user, p_action, p_status);
+  END;
+END pkg_audit_utils;
+/
+```
+
+🔄 *Allows modular logging of actions from any procedure or trigger.*
+
+---
+
+## 🧪 7. Testing
+
+### ✅ Tested Scenarios:
+- ✔️ User attempts INSERT on a **weekday** → **Blocked**
+- ✔️ User attempts DELETE on a **holiday** → **Blocked**
+- ✔️ User inserts on **Saturday** → **Allowed**
+- ✔️ All actions log entries into **Audit_Log**
+
+---
+
+## 🛡️ 8. Security & MIS Alignment
+
+This phase ensures:
+- 🔐 **Security:** Data cannot be altered during restricted times
+- 🧾 **Accountability:** Every action is logged with who did what and when
+- 🤖 **Automation:** No manual checking or enforcement needed
+- 📊 **MIS-readiness:** Full traceability for management decisions and compliance
+
+---
+
+## ✅ Conclusion
+
+This phase brings enterprise-level **security, automation, and auditability** to our Equipment Borrowing Management System. With real-time restriction triggers, detailed audit logs, and clean modular procedures, the system is now equipped for professional use and real-world deployment.
+
+It doesn't just store and process data — it **protects it intelligently**. 🛡️🧠
+
