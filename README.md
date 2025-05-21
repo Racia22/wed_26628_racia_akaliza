@@ -696,3 +696,193 @@ GROUP BY Availability_Status;
 
 ---
 
+
+---
+
+# 🔄 Phase 6: Database Interaction & Transactions
+
+## 📘 Phase Cover – What’s Included in Phase VI?
+
+In this phase, our database evolves from a static container of data into an intelligent, responsive system. We implement:
+- 🎯 Database operations (DML & DDL)
+- 🧠 Procedural logic with functions and exception handling
+- ⚙️ Modular packages for organization
+- 🧪 Testing to ensure robustness
+
+---
+
+## ✏️ 1. Database Operations
+
+### 📥 DML (Data Manipulation Language)
+
+#### 🧾 `INSERT`
+```sql
+INSERT INTO Fines VALUES (306, 1, 25.00, 'Late return of projector', 'Unpaid');
+```
+*Adds a fine for late return.*
+
+#### ✍️ `UPDATE`
+```sql
+UPDATE Equipment SET Availability_Status = 'Available' WHERE Equipment_ID = 103;
+```
+*Marks the projector as returned.*
+
+#### 🗑️ `DELETE`
+```sql
+DELETE FROM Borrowing_Records WHERE Borrow_ID = 204;
+```
+*Removes an incorrect transaction.*
+
+---
+
+### 🏗️ DDL (Data Definition Language)
+
+#### 🧱 `CREATE`
+```sql
+CREATE TABLE Audit_Log (
+  Log_ID INT PRIMARY KEY,
+  Action VARCHAR2(100),
+  Timestamp DATE DEFAULT SYSDATE
+);
+```
+*Creates a table for system audit logs.*
+
+#### 🔧 `ALTER`
+```sql
+ALTER TABLE Equipment ADD Manufacturer VARCHAR2(100);
+```
+*Adds manufacturer info to the Equipment table.*
+
+#### 💣 `DROP`
+```sql
+DROP TABLE Audit_Log;
+```
+*Removes the Audit_Log table when no longer needed.*
+
+---
+
+## 🔍 2. Simple Analytical Problem Statement
+
+**Problem:**  
+> Which user has the most borrow records and what is their total fine amount?
+
+This analysis supports MIS reporting by identifying high-activity users and accountability through fines.
+
+---
+
+## 🧮 3. Procedure: `Get_User_Borrow_History`
+
+```sql
+CREATE OR REPLACE PROCEDURE Get_User_Borrow_History(p_user_id IN NUMBER) IS
+  CURSOR c_borrow IS
+    SELECT * FROM Borrowing_Records WHERE User_ID = p_user_id;
+  v_record Borrowing_Records%ROWTYPE;
+BEGIN
+  OPEN c_borrow;
+  LOOP
+    FETCH c_borrow INTO v_record;
+    EXIT WHEN c_borrow%NOTFOUND;
+    DBMS_OUTPUT.PUT_LINE('Borrow ID: ' || v_record.Borrow_ID || ', Status: ' || v_record.Status);
+  END LOOP;
+  CLOSE c_borrow;
+EXCEPTION
+  WHEN OTHERS THEN
+    DBMS_OUTPUT.PUT_LINE('An error occurred: ' || SQLERRM);
+END;
+```
+
+🧠 *Fetches borrowing history for a specific user using a cursor and handles errors gracefully.*
+
+---
+
+## 💰 4. Function: `Calculate_User_Fines`
+
+```sql
+CREATE OR REPLACE FUNCTION Calculate_User_Fines(p_user_id IN NUMBER) RETURN NUMBER IS
+  v_total NUMBER := 0;
+BEGIN
+  SELECT SUM(Amount) INTO v_total FROM Fines WHERE User_ID = p_user_id AND Paid_Status = 'Unpaid';
+  RETURN NVL(v_total, 0);
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+    RETURN 0;
+  WHEN OTHERS THEN
+    DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+    RETURN -1;
+END;
+```
+
+*Calculates and returns the total unpaid fines for a user.*
+
+---
+
+## 📦 5. Package: `pkg_user_analytics`
+
+### 📜 Package Specification
+```sql
+CREATE OR REPLACE PACKAGE pkg_user_analytics IS
+  PROCEDURE Get_User_Borrow_History(p_user_id IN NUMBER);
+  FUNCTION Calculate_User_Fines(p_user_id IN NUMBER) RETURN NUMBER;
+END pkg_user_analytics;
+```
+
+### 📦 Package Body
+```sql
+CREATE OR REPLACE PACKAGE BODY pkg_user_analytics IS
+
+  PROCEDURE Get_User_Borrow_History(p_user_id IN NUMBER) IS
+    CURSOR c_borrow IS
+      SELECT * FROM Borrowing_Records WHERE User_ID = p_user_id;
+    v_record Borrowing_Records%ROWTYPE;
+  BEGIN
+    OPEN c_borrow;
+    LOOP
+      FETCH c_borrow INTO v_record;
+      EXIT WHEN c_borrow%NOTFOUND;
+      DBMS_OUTPUT.PUT_LINE('Borrow ID: ' || v_record.Borrow_ID || ', Status: ' || v_record.Status);
+    END LOOP;
+    CLOSE c_borrow;
+  EXCEPTION
+    WHEN OTHERS THEN
+      DBMS_OUTPUT.PUT_LINE('An error occurred: ' || SQLERRM);
+  END;
+
+  FUNCTION Calculate_User_Fines(p_user_id IN NUMBER) RETURN NUMBER IS
+    v_total NUMBER := 0;
+  BEGIN
+    SELECT SUM(Amount) INTO v_total FROM Fines WHERE User_ID = p_user_id AND Paid_Status = 'Unpaid';
+    RETURN NVL(v_total, 0);
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+      RETURN 0;
+    WHEN OTHERS THEN
+      DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+      RETURN -1;
+  END;
+
+END pkg_user_analytics;
+```
+
+📦 *Groups procedures and functions logically to support user-focused analytics.*
+
+---
+
+## 🧪 6. Testing
+
+
+### 🧪 Examples:
+- `EXEC Get_User_Borrow_History(1);`
+- `SELECT Calculate_User_Fines(3) FROM DUAL;` 
+
+---
+
+## 🔚 Conclusion
+
+This phase empowered our system with **modular intelligence**. The database is no longer just storage — it’s an active participant in decision-making:
+
+- It **calculates**,  
+- It **tracks**,  
+- And it **responds**.
+
+With interactive logic, packaged code, and robust error handling, I’ve built a true **MIS-powered backend** that’s future-proof and scalable.
+
