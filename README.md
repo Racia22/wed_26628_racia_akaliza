@@ -226,6 +226,9 @@ This process models how students or employees request to borrow equipment, how i
 
 ## 🏊‍♂️ Use Swimlanes for Clarity
 
+![image](https://github.com/user-attachments/assets/0994b6dd-5693-4a47-9653-c37d9d57a956)
+
+
 My Swimlane Diagram has the following lanes:
 
 **🧍‍♂️ Lane 1:** User (Borrower)
