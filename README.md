@@ -509,6 +509,11 @@ Grant succeeded.
 
 *  **Purpose:** To assigns full privileges for database operations.
 
+## 🔭 Screenshot of PDB
+
+<img width="1078" alt="pdbs akaliza" src="https://github.com/user-attachments/assets/ae76f424-5f29-47cc-94d3-6c466251212a" />
+
+
 ### ⚖️ Oracle Enterprise Manager (OEM)
 
 The **OEM** interface confirmed:
