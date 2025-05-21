@@ -1,9 +1,7 @@
-# 🧮 Project Title: Equipment Borrowing Management System
+# 📁 Project Title: Equipment Borrowing Management System
 
-**Developer:** Akaliza M. Racia
-
-**Student ID:** 26628
-
+**👩‍💻 Student:** Akaliza M. Racia  
+**🆔 ID:** 26628 
 
 ## 📝 Introduction
 
@@ -889,11 +887,6 @@ With interactive logic, packaged code, and robust error handling, I’ve built a
 
 
 # 🔐 Phase VII: Advanced Database Programming & Auditing  
-**📁 Project:** Equipment Borrowing Management System  
-**👩‍💻 Student:** Akaliza M. Racia  
-**🆔 ID:** 26628  
-**📅 Date:** [Insert Date]  
-
 ---
 
 
