@@ -234,14 +234,12 @@ My Swimlane Diagram has the following lanes:
 
 **🧑‍🔧Lane 2:** Equipment Manager
 
-**🖥️ Lane 3:** System (Database + Notification Engine)
-
-**👨‍🏫 Lane 4:** Administrator
+**🖥️ Lane 3:** System\Admin (Database + Notification Engine)
 
 
 ## 🧮 Apply UML/BPMN Notations
 
-## Use BPMN elements like:
+## Used BPMN elements:
 
  - ⚪ Start/End Events (circles)
 
@@ -277,7 +275,7 @@ My Swimlane Diagram has the following lanes:
 
 ## 🔁 Ensure a Logical Flow 
 
-## The modeled process should flow from:
+## The modeled process flows from:
 
 ⚪ Start →
 
@@ -416,7 +414,8 @@ Each entity can scale with more data while maintaining consistency and supportin
 The ER diagram visualizes the entities, their attributes, and relationships with clear cardinalities,
 primary keys, foreign keys, and constraints.
 
-![image](https://github.com/user-attachments/assets/28c029f3-6bbd-4bf9-bfd0-5a0e276aa4a7)
+![image](https://github.com/user-attachments/assets/a22a32b4-ad40-4e8e-b907-73bad1b7433c)
+
 
 ## 🎡 MIS Role:
 
