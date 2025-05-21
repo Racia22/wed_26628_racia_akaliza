@@ -140,6 +140,8 @@ Where borrowing of equipment like laptops, lab kits, or cameras is common.
   - 🧾 Enforced policies with fines
 
 
+---
+
 
 # 🧩 Phase 2: Business Process Modeling
 
@@ -305,6 +307,11 @@ My Swimlane Diagram has the following lanes:
 
  - Format: PNG or embedded in documentation
 
+
+---
+
+
+
  # Phase 3:  🗂 Logical Model Design
  
 ## 📘 Phase Cover – What’s Included in Phase III?
@@ -423,6 +430,9 @@ primary keys, foreign keys, and constraints.
 | **Security**        | Maintains data integrity and access control |
 
 
+---
+
+
 #  Phase 4: 💾Pluggable Database Creation and Naming
 
 ### 📠 What This Phase Covers
@@ -533,7 +543,155 @@ This phase successfully established the pluggable database and implemented the p
 ---
 
 
+# 🧾 Phase V: Table Implementation & Data Insertion
+
+## 📘 Introduction
+
+In this phase, we bring together the results of all previous phases — from problem analysis, process modeling, and logical design — into a working physical database using Oracle SQL.
+
+This step focuses on:
+
+ - 💽 Building the database structure from the ERD
+
+ - 🧪 Inserting sample data for testing and demonstration
+
+ - 🛡️ Enforcing data integrity through constraints
+
+ - 📈 Enabling queries and future analytics via a consistent structure
+
+It represents the first functional version of the Equipment Borrowing Management System, ready for interaction and validation.
+
+## 🧱 1. Table Creation
+
+Using the logical model from Phase III, we created the following tables with full constraint support:
+
+## 👥 Users Table
+```sql
+CREATE TABLE Users (
+  User_ID INT PRIMARY KEY,
+  Name VARCHAR(100) NOT NULL,
+  Department VARCHAR(100) NOT NULL,
+  Contact_Info VARCHAR(150) NOT NULL UNIQUE
+);
+```
+## 💻 Equipment Table
+```sql
+CREATE TABLE Equipment (
+  Equipment_ID INT PRIMARY KEY,
+  Name VARCHAR(100) NOT NULL,
+  Type VARCHAR(50) NOT NULL,
+  Condition VARCHAR(50) DEFAULT 'Good' CHECK (Condition IN ('Good', 'Fair', 'Damaged')),
+  Availability_Status VARCHAR(20) DEFAULT 'Available' CHECK (Availability_Status IN ('Available', 'Borrowed'))
+);
+```
+## 📄 Borrowing Records Table
+```sql
+CREATE TABLE Borrowing_Records (
+  Borrow_ID INT PRIMARY KEY,
+  User_ID INT NOT NULL,
+  Equipment_ID INT NOT NULL,
+  Borrow_Date DATE NOT NULL,
+  Due_Date DATE NOT NULL,
+  Return_Date DATE,
+  Status VARCHAR(20) DEFAULT 'Borrowed' CHECK (Status IN ('Borrowed', 'Returned', 'Overdue')),
+  FOREIGN KEY (User_ID) REFERENCES Users(User_ID),
+  FOREIGN KEY (Equipment_ID) REFERENCES Equipment(Equipment_ID),
+  CHECK (Due_Date > Borrow_Date) 
+);
+```
+## 💸 Fines Table
+```sql
+CREATE TABLE Fines (
+  Fine_ID INT PRIMARY KEY,
+  User_ID INT NOT NULL,
+  Amount DECIMAL(10,2) DEFAULT 0.00 CHECK (Amount >= 0),
+  Reason VARCHAR(150) NOT NULL,
+  Paid_Status VARCHAR(20) DEFAULT 'Unpaid' CHECK (Paid_Status IN ('Paid', 'Unpaid')),
+  FOREIGN KEY (User_ID) REFERENCES Users(User_ID)
+);
+```
+## 📥 2. Data Insertion
+
+Five meaningful records were added to each table to simulate realistic operations within a university setting:
+
+## 👥 Insert into Users
+```sql
+INSERT INTO Users VALUES (1, 'Lyna ', 'IT Department', 'lyna@gmail.com');
+INSERT INTO Users VALUES (2, 'Ben ', 'Science Lab', 'ben@gmail.com');
+INSERT INTO Users VALUES (3, 'Gloria ', 'Engineering', 'gloria@gmail.com');
+INSERT INTO Users VALUES (4, 'Daniel ', 'Architecture', 'daniel@gmail.com');
+INSERT INTO Users VALUES (5, 'Eve ', 'Business', 'eve@gmail.com');
+```
+## 💻 Insert into Equipment
+```sql
+INSERT INTO Equipment VALUES (101, 'Dell Laptop', 'Laptop', 'Good', 'Available');
+INSERT INTO Equipment VALUES (102, 'Canon Camera', 'Camera', 'Fair', 'Available');
+INSERT INTO Equipment VALUES (103, 'Epson Projector', 'Projector', 'Good', 'Borrowed');
+INSERT INTO Equipment VALUES (104, 'Multimeter', 'Lab Tool', 'Damaged', 'Available');
+INSERT INTO Equipment VALUES (105, 'MacBook Pro', 'Laptop', 'Good', 'Available');
+```
+## 📄 Insert into Borrowing_Records
+```sql
+INSERT INTO Borrowing_Records VALUES (201, 1, 101, TO_DATE('2025-05-01', 'YYYY-MM-DD'), TO_DATE('2025-05-10', 'YYYY-MM-DD'), NULL, 'Borrowed');
+INSERT INTO Borrowing_Records VALUES (202, 2, 103, TO_DATE('2025-05-03', 'YYYY-MM-DD'), TO_DATE('2025-05-12', 'YYYY-MM-DD'), TO_DATE('2025-05-11', 'YYYY-MM-DD'), 'Returned');
+INSERT INTO Borrowing_Records VALUES (203, 3, 102, TO_DATE('2025-04-25', 'YYYY-MM-DD'), TO_DATE('2025-05-05', 'YYYY-MM-DD'), TO_DATE('2025-05-08', 'YYYY-MM-DD'), 'Overdue');
+INSERT INTO Borrowing_Records VALUES (204, 1, 104, TO_DATE('2025-05-04', 'YYYY-MM-DD'), TO_DATE('2025-05-14', 'YYYY-MM-DD'), NULL, 'Borrowed');
+INSERT INTO Borrowing_Records VALUES (205, 5, 105, TO_DATE('2025-05-02', 'YYYY-MM-DD'), TO_DATE('2025-05-09', 'YYYY-MM-DD'), TO_DATE('2025-05-09', 'YYYY-MM-DD'), 'Returned');
+```
+## 💸 Insert into Fines
+```sql
+INSERT INTO Fines VALUES (301, 3, 50.00, 'Late return of camera', 'Unpaid');
+INSERT INTO Fines VALUES (302, 2, 0.00, 'Returned on time', 'Paid');
+INSERT INTO Fines VALUES (303, 5, 0.00, 'Good standing', 'Paid');
+INSERT INTO Fines VALUES (304, 1, 10.00, 'Slight delay in return', 'Unpaid');
+INSERT INTO Fines VALUES (305, 4, 0.00, 'No penalties yet', 'Unpaid');
+```
+## 🔐 3. Data Integrity Assurance
+
+✔️ Primary keys, foreign keys, `NOT NULL`, `UNIQUE`, `CHECK`, and `DEFAULT` constraints are all enforced.
+
+✔️ Sample data reflects realistic system use: borrowed items, overdue returns, and generated fines.
+
+✔️ All references between tables are valid (e.g., `User_ID` and `Equipment_ID` exist before they're used).
+
+## 🏗️ 4. Physical Database Structure
+
+The logical data model from Phase III is now fully implemented in Oracle SQL:
+
+  - 🔢 Structured data types
+
+  - 🔐 Enforced constraints for consistency
+
+ - 🔁 Referential integrity across tables
+
+ - 🧱 A solid foundation for building PL/SQL procedures, triggers, and reports in future 
+      phases
+
+## 🧪 5. Sample Queries for Testing
+
+### 🔍 A. Borrowed Equipment with User Details
+
+```sql
+SELECT U.Name, E.Name AS Equipment, B.Borrow_Date, B.Due_Date, B.Status
+FROM Borrowing_Records B
+JOIN Users U ON B.User_ID = U.User_ID
+JOIN Equipment E ON B.Equipment_ID = E.Equipment_ID;
+```
+### 💸 B. Fines by User
+
+```sql
+SELECT U.Name, F.Amount, F.Reason, F.Paid_Status
+FROM Fines F
+JOIN Users U ON F.User_ID = U.User_ID;
+```
+📊 C. Equipment Availability Summary
+
+```sql
+SELECT Availability_Status, COUNT(*) AS Total
+FROM Equipment
+GROUP BY Availability_Status;
+```
 
 
-
+---
 
