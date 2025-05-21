@@ -543,7 +543,7 @@ This phase successfully established the pluggable database and implemented the p
 ---
 
 
-# 🧾 Phase V: Table Implementation & Data Insertion
+# 🧾 Phase 5: Table Implementation & Data Insertion
 
 ## 📘 Introduction
 
@@ -600,6 +600,7 @@ CREATE TABLE Borrowing_Records (
 );
 ```
 ## 💸 Fines Table
+
 ```sql
 CREATE TABLE Fines (
   Fine_ID INT PRIMARY KEY,
@@ -612,7 +613,7 @@ CREATE TABLE Fines (
 ```
 ## 📥 2. Data Insertion
 
-Five meaningful records were added to each table to simulate realistic operations within a university setting:
+Five meaningful records were added to each table to simulate realistic operations:
 
 ## 👥 Insert into Users
 ```sql
