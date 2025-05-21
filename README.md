@@ -1,4 +1,4 @@
-# Equipment Borrowing Management System
+# 🧮 Project Title: Equipment Borrowing Management System
 
 **Developer:** Akaliza M. Racia
 
@@ -406,21 +406,126 @@ Each entity can scale with more data while maintaining consistency and supportin
 
 ## 📷 Screenshot of ERD Diagram
 
+The ER diagram visualizes the entities, their attributes, and relationships with clear cardinalities,
+primary keys, foreign keys, and constraints.
+
 ![image](https://github.com/user-attachments/assets/28c029f3-6bbd-4bf9-bfd0-5a0e276aa4a7)
 
+## 🎡 MIS Role:
+
+| 🔍 Function         | 💡 MIS Contribution                         |
+| ------------------- | ------------------------------------------- |
+| **Tracking**        | Keeps detailed borrowing and return logs    |
+| **Decision-making** | Enables smart policies through reporting    |
+| **Accountability**  | Links every action to a user and time       |
+| **Efficiency**      | Automates manual workflows                  |
+| **Communication**   | Ensures users and managers stay updated     |
+| **Security**        | Maintains data integrity and access control |
 
 
+#  Phase 4: 💾Pluggable Database Creation and Naming
+
+### 📠 What This Phase Covers
+This phase focuses on creating a Pluggable Database **(PDB)** and converting the logical model into a physical database structure. It ensures that all tables, relationships, and constraints are implemented to meet project requirements.
+
+### 🔨Database Creation
+
+The Pluggable Database (PDB) was created using the following naming format:
+
+```sql
+Database Name: wed_26628__equipment_borrowing_db
+Username: akaliza
+Password: akaliza
+```
+
+### Steps Executed in SQL Command Prompt
+
+**1.Create a pluggable database:**
+
+```sql
+
+SQL> CREATE PLUGGABLE DATABASE wed_26628__equipment_borrowing_db
+  2  ADMIN USER akaliza IDENTIFIED BY akaliza
+  3  FILE_NAME_CONVERT=('C:\ORACLE21C\ORADATA\ORCL\PDBseed\','C:\ORACLE21C\ORADATA\ORCL\wed_26628__equipment_borrowing_db\');
+
+Pluggable database created.
+```
+
+**2.Open the newly created PDB:**
+
+```sql
+
+SQL> ALTER PLUGGABLE DATABASE wed_26628__equipment_borrowing_db OPEN;
+
+Pluggable database altered.
+
+```
+
+* **Purpose:** Makes the PDB active and ready for operations.
 
 
+#### 3.save the newly created PDB.
 
 
+```sql
+SQL> ALTER PLUGGABLE DATABASE wed_26628__equipment_borrowing_db SAVE STATE;
+
+Pluggable database altered.
+```
+
+* **Purpose:** Ensures the PDB remains open after the database restarts.
 
 
+#### 4. Set the Session Container
+
+```sql
+SQL> ALTER SESSION SET CONTAINER = wed_26628__equipment_borrowing_db;
+
+Session altered.
+```
+
+* **Purpose:** Switches the session to the newly created PDB for subsequent operations.
 
 
+### 5.User Creation and Privilege Assignment
+
+#### Create a Database User
+
+```sql
+SQL> CREATE USER akaliza IDENTIFIED BY akaliza;
+
+User created.
+```
+
+* **Purpose:** Creates a new user, akaliza, with the password akaliza.
+
+#### Grant Basic Privileges
+
+```sql
+SQL> GRANT CONNECT, RESOURCE, DBA, SYSDBA TO akaliza;
+
+Grant succeeded.
+```
+
+*  **Purpose:** To assigns full privileges for database operations.
+
+### ⚖️ Oracle Enterprise Manager (OEM)
+
+The **OEM** interface confirmed:
+
+* Successful creation of the database.
+* Proper implementation of relationships between tables.
+
+## 📸 OEM confirm successful database creation and table relationships.
+
+<img width="1077" alt="OEM pdbs" src="https://github.com/user-attachments/assets/1292f162-2675-40d7-98d6-89634f51ee66" />
+
+### 🔭 Conclusion About this phase 
+
+This phase successfully established the pluggable database and implemented the physical structure, enabling efficient data management for the Equipment Borrowing Management System.
 
 
-
+---
 
 
 
