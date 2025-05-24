@@ -417,7 +417,8 @@ Each entity can scale with more data while maintaining consistency and supportin
 The ER diagram visualizes the entities, their attributes, and relationships with clear cardinalities,
 primary keys, foreign keys, and constraints.
 
-![image](https://github.com/user-attachments/assets/a22a32b4-ad40-4e8e-b907-73bad1b7433c)
+![image](https://github.com/user-attachments/assets/51b3665d-b4c0-4bc4-a9b4-d6cf986002c5)
+
 
 
 ## 🎡 MIS Role:
