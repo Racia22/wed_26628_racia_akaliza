@@ -303,7 +303,7 @@ My Swimlane Diagram has the following lanes:
 
  - Diagram Tool: Draw.io
 
- - Notation Style: BPMN / UML with swimlanes
+ - Notation Style: BPMN with swimlanes
 
  - Format: PNG or embedded in documentation
 
